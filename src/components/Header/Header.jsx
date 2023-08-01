@@ -6,9 +6,35 @@ import { useContext } from "react";
 import { AuthContext } from "../providers/AuthProvider";
 
 const Header = () => {
-  const { user } = useContext(AuthContext);
+  const { user, logOut } = useContext(AuthContext);
+  console.log(user);
+  const handleLogOut = () => {
+    logOut()
+      .then((result) => {})
+      .catch((error) => console.error(error));
+  };
 
   return (
+    // <nav className="header">
+    //   <img src={logo} alt="" />
+    //   <div>
+    //     <Link to="/">Shop</Link>
+
+    //     <Link to="/orders">Orders</Link>
+
+    //     <Link to="/inventory">Inventory</Link>
+
+    //     <Link to="/login">Login</Link>
+
+    //     <Link to="/signUp">SignUp</Link>
+
+    //     {user && (
+    //       <span className="text-white">
+    //         {user.email} <button onClick={handleLogOut}>Sign Out</button>
+    //       </span>
+    //     )}
+    //   </div>
+    // </nav>
     <div className="navbar bg-primary text-primary-content ">
       <div className="">
         <div className="navbar-start">
@@ -33,7 +59,6 @@ const Header = () => {
               tabIndex={0}
               className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-100 rounded-box w-52"
             >
-              {user && <span>Welcome</span>}
               <li>
                 <Link to="/">Shop</Link>
               </li>
@@ -49,6 +74,10 @@ const Header = () => {
               <li>
                 <Link to="/signUp">SignUp</Link>
               </li>
+              <li>
+                {user && <span className="text-black">{user.email}</span>}
+              </li>
+              <button onClick={handleLogOut}>Sign Out</button>
             </ul>
           </div>
         </div>
@@ -74,7 +103,12 @@ const Header = () => {
               <li>
                 <Link to="/signUp">SignUp</Link>
               </li>
-              <li>{user && <span>Welcome</span>}</li>
+              <li>
+                {user && <span className="text-white">{user.email}</span>}
+              </li>
+              <li>
+                <button onClick={handleLogOut}>Sign Out</button>
+              </li>
             </ul>
           </div>
         </nav>

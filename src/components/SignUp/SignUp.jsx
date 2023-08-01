@@ -1,20 +1,22 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import "./SignUp.css";
+import { AuthContext } from "../providers/AuthProvider";
 
 const SignUp = () => {
   const [error, setError] = useState("");
+  const { createUser } = useContext(AuthContext);
 
   const handleSignUp = (event) => {
     event.preventDefault();
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
-    const confirmPassword = form.confirmPassword.value;
+    // const confirmPassword = form.confirmPassword.value;
     const password = form.password.value;
 
     console.log(name, email, password);
-
+    setError("");
     // if (password != confirmPassword) {
     //   setError("Your password did not match");
     //   return;
@@ -22,6 +24,18 @@ const SignUp = () => {
     if (password.length < 5) {
       setError("Password must be 6 characters or longer");
     }
+
+    createUser(email, password)
+      .then((userCredential) => {
+        const user = userCredential.user;
+        console.log(user);
+        form.reset();
+      })
+
+      .catch((error) => {
+        console.log(error);
+        setError(error.message);
+      });
   };
 
   return (
