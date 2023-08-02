@@ -5,6 +5,7 @@ import { AuthContext } from "../providers/AuthProvider";
 
 const SignUp = () => {
   const [error, setError] = useState("");
+  const [show, setShow] = useState(false);
   const { createUser } = useContext(AuthContext);
 
   const handleSignUp = (event) => {
@@ -12,16 +13,15 @@ const SignUp = () => {
     const form = event.target;
     const name = form.name.value;
     const email = form.email.value;
-    // const confirmPassword = form.confirmPassword.value;
     const password = form.password.value;
+    const confirmPassword = form.confirmPassword.value;
 
-    console.log(name, email, password);
+    console.log(name, email, password, confirmPassword);
     setError("");
-    // if (password != confirmPassword) {
-    //   setError("Your password did not match");
-    //   return;
-    // } else
-    if (password.length < 5) {
+    if (password != confirmPassword) {
+      setError("Your password did not match");
+      return;
+    } else if (password.length < 5) {
       setError("Password must be 6 characters or longer");
     }
 
@@ -76,7 +76,7 @@ const SignUp = () => {
                   <span className="label-text">Password</span>
                 </label>
                 <input
-                  type="password"
+                  type={show ? "text" : "password"}
                   name="password"
                   placeholder="password"
                   className="input input-bordered"
@@ -84,18 +84,32 @@ const SignUp = () => {
                 />
               </div>
 
-              <div className="form-control">
+              <div className="from-control">
                 <label className="label">
                   <span className="label-text">Confirm Password</span>
                 </label>
                 <input
-                  type="password"
-                  name="confirm password"
+                  type={show ? "text" : "password"}
+                  name="confirmPassword"
                   placeholder="Password"
                   className="input input-bordered"
                   required
                 />
+              </div>
 
+              <div>
+                <p onClick={() => setShow(!show)}>
+                  <small>
+                    {show ? (
+                      <span>Hide Password</span>
+                    ) : (
+                      <span>Show Password</span>
+                    )}
+                  </small>
+                </p>
+              </div>
+
+              <div className="form-control">
                 <label className="label">
                   <p className="label-text-alt">All ready registered?</p>
                 </label>
